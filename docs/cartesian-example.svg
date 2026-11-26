@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<title>Cartesian: Tokyo as three straight distances</title>
+<rect x="1" y="1" width="758" height="398" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<circle cx="255" cy="215" r="135" fill="#dcebf7" stroke="#5b7083" stroke-width="1.5"/>
+<polyline points="390.0,215.0 389.9,212.6 389.7,210.3 389.3,207.9 388.7,205.6 387.9,203.3 387.0,201.0 386.0,198.7 384.8,196.4 383.4,194.1 381.9,191.9 380.2,189.7 378.3,187.5 376.3,185.4 374.2,183.3 371.9,181.2 369.5,179.2 366.9,177.3 364.2,175.3 361.4,173.4 358.4,171.6 355.3,169.8 352.1,168.1 348.8,166.4 345.3,164.8 341.8,163.3 338.1,161.8 334.4,160.4 330.5,159.0 326.5,157.8 322.5,156.5 318.4,155.4 314.2,154.3 309.9,153.3 305.6,152.4 301.2,151.6 296.7,150.8 292.2,150.1 287.7,149.5 283.1,149.0 278.4,148.5 273.8,148.2 269.1,147.9 264.4,147.7 259.7,147.5 255.0,147.5 250.3,147.5 245.6,147.7 240.9,147.9 236.2,148.2 231.6,148.5 226.9,149.0 222.3,149.5 217.8,150.1 213.3,150.8 208.8,151.6 204.4,152.4 200.1,153.3 195.8,154.3 191.6,155.4 187.5,156.5 183.5,157.8 179.5,159.0 175.6,160.4 171.9,161.8 168.2,163.3 164.7,164.8 161.2,166.4 157.9,168.1 154.7,169.8 151.6,171.6 148.6,173.4 145.8,175.3 143.1,177.3 140.5,179.2 138.1,181.2 135.8,183.3 133.7,185.4 131.7,187.5 129.8,189.7 128.1,191.9 126.6,194.1 125.2,196.4 124.0,198.7 123.0,201.0 122.1,203.3 121.3,205.6 120.7,207.9 120.3,210.3 120.1,212.6 120.0,215.0" fill="none" stroke="#5b7083" stroke-width="1.0499999999999998" stroke-dasharray="4 5" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="273.8,281.8 278.4,281.5 283.1,281.0 287.7,280.5 292.2,279.9 296.7,279.2 301.2,278.4 305.6,277.6 309.9,276.7 314.2,275.7 318.4,274.6 322.5,273.5 326.5,272.2 330.5,271.0 334.4,269.6 338.1,268.2 341.8,266.7 345.3,265.2 348.8,263.6 352.1,261.9 355.3,260.2 358.4,258.4 361.4,256.6 364.2,254.7 366.9,252.7 369.5,250.8 371.9,248.8 374.2,246.7 376.3,244.6 378.3,242.5 380.2,240.3 381.9,238.1 383.4,235.9 384.8,233.6 386.0,231.3 387.0,229.0 387.9,226.7 388.7,224.4 389.3,222.1 389.7,219.7 389.9,217.4 390.0,215.0" fill="none" stroke="#5b7083" stroke-width="1.5" opacity="1" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="120.0,215.0 120.1,217.4 120.3,219.7 120.7,222.1 121.3,224.4 122.1,226.7 123.0,229.0 124.0,231.3 125.2,233.6 126.6,235.9 128.1,238.1 129.8,240.3 131.7,242.5 133.7,244.6 135.8,246.7 138.1,248.8 140.5,250.8 143.1,252.7 145.8,254.7 148.6,256.6 151.6,258.4 154.7,260.2 157.9,261.9 161.2,263.6 164.7,265.2 168.2,266.7 171.9,268.2 175.6,269.6 179.5,271.0 183.5,272.2 187.5,273.5 191.6,274.6 195.8,275.7 200.1,276.7 204.4,277.6 208.8,278.4 213.3,279.2 217.8,279.9 222.3,280.5 226.9,281.0 231.6,281.5 236.2,281.8 240.9,282.1 245.6,282.3 250.3,282.5 255.0,282.5 259.7,282.5 264.4,282.3 269.1,282.1 273.8,281.8" fill="none" stroke="#5b7083" stroke-width="1.5" opacity="1" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="278.5" y2="298.6" stroke="#be185d" stroke-width="2" stroke-dasharray="2 6" opacity="0.6" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="236.2" y2="148.2" stroke="#be185d" stroke-width="2.5" stroke-dasharray="7 5" opacity="1" stroke-linecap="round"/>
+<line x1="236.2" y1="148.2" x2="231.3" y2="130.7" stroke="#be185d" stroke-width="4" opacity="1" stroke-linecap="round"/>
+<polygon points="228.7,121.4 236.4,130.6 227.0,133.3" fill="#be185d" opacity="1"/>
+<text x="226.4" y="119.4" fill="#be185d" font-size="20" font-weight="700" text-anchor="middle" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">X</text>
+<line x1="255.0" y1="215.0" x2="422.1" y2="203.3" stroke="#0e7490" stroke-width="2" stroke-dasharray="2 6" opacity="0.6" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="121.3" y2="224.4" stroke="#0e7490" stroke-width="2.5" stroke-dasharray="7 5" opacity="1" stroke-linecap="round"/>
+<line x1="121.3" y1="224.4" x2="77.4" y2="227.5" stroke="#0e7490" stroke-width="4" opacity="1" stroke-linecap="round"/>
+<polygon points="67.8,228.2 78.4,222.5 79.1,232.3" fill="#0e7490" opacity="1"/>
+<text x="51.8" y="235.3" fill="#0e7490" font-size="20" font-weight="700" text-anchor="middle" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Y</text>
+<line x1="255.0" y1="215.0" x2="255.0" y2="361.1" stroke="#6d28d9" stroke-width="2" stroke-dasharray="2 6" opacity="0.6" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="255.0" y2="98.1" stroke="#6d28d9" stroke-width="2.5" stroke-dasharray="7 5" opacity="1" stroke-linecap="round"/>
+<line x1="255.0" y1="98.1" x2="255.0" y2="60.9" stroke="#6d28d9" stroke-width="4" opacity="1" stroke-linecap="round"/>
+<polygon points="255.0,51.3 259.9,62.3 250.1,62.3" fill="#6d28d9" opacity="1"/>
+<text x="255.0" y="43.3" fill="#6d28d9" font-size="20" font-weight="700" text-anchor="middle" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Z</text>
+<text x="280.6" y="311.9" fill="#be185d" font-size="16" font-weight="700" text-anchor="middle" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">−X</text>
+<line x1="184.7" y1="219.9" x2="196.3" y2="261.3" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="255.0" y1="146.8" x2="266.6" y2="188.2" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="255.0" y1="146.8" x2="184.7" y2="151.7" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="184.7" y1="151.7" x2="196.3" y2="193.1" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="266.6" y1="188.2" x2="196.3" y2="193.1" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="184.7" y1="219.9" x2="184.7" y2="151.7" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="266.6" y1="256.4" x2="266.6" y2="188.2" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="184.7" y2="219.9" stroke="#8397a8" stroke-width="1.3" stroke-dasharray="3 4" opacity="1" stroke-linecap="round"/>
+<line x1="255.0" y1="215.0" x2="266.6" y2="256.4" stroke="#be185d" stroke-width="5" opacity="1" stroke-linecap="round"/>
+<line x1="266.6" y1="256.4" x2="196.3" y2="261.3" stroke="#0e7490" stroke-width="5" opacity="1" stroke-linecap="round"/>
+<line x1="196.3" y1="261.3" x2="196.3" y2="193.1" stroke="#6d28d9" stroke-width="5" opacity="1" stroke-linecap="round"/>
+<circle cx="255.0" cy="215.0" r="6" fill="#1f2933" stroke="#fff" stroke-width="2.5"/>
+<circle cx="196.3" cy="193.1" r="9" fill="#e11d48" stroke="#fff" stroke-width="2.5"/>
+<text x="295.0" y="153.0" fill="#1f2933" font-size="13" font-weight="700" text-anchor="start" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">zero: the Earth's centre</text>
+<line x1="291.0" y1="157.0" x2="261.0" y2="210.0" stroke="#1f2933" stroke-width="1" stroke-dasharray="2 3" opacity="1" stroke-linecap="round"/>
+<text x="196.3" y="177.1" fill="#e11d48" font-size="14" font-weight="700" text-anchor="middle" stroke="#f6f8fa" stroke-width="4" paint-order="stroke" stroke-linejoin="round">Tokyo</text>
+<text x="470.0" y="52.0" fill="#1f2933" font-size="18" font-weight="700" text-anchor="start">Cartesian: distances</text>
+<text x="470.0" y="74.0" fill="#5b7083" font-size="13.5" text-anchor="start">Walk, walk, then climb</text>
+<rect x="470" y="98" width="14" height="14" rx="3" fill="#be185d"/>
+<text x="492.0" y="111.0" fill="#be185d" font-size="16" font-weight="700" text-anchor="start">X = −3,953 km</text>
+<text x="492.0" y="132.0" fill="#1f2933" font-size="13.5" text-anchor="start">walk along X. Minus means</text>
+<text x="492.0" y="150.0" fill="#1f2933" font-size="13.5" text-anchor="start">the opposite way</text>
+<rect x="470" y="174" width="14" height="14" rx="3" fill="#0e7490"/>
+<text x="492.0" y="187.0" fill="#0e7490" font-size="16" font-weight="700" text-anchor="start">Y = 3,358 km</text>
+<text x="492.0" y="208.0" fill="#1f2933" font-size="13.5" text-anchor="start">walk along Y</text>
+<rect x="470" y="232" width="14" height="14" rx="3" fill="#6d28d9"/>
+<text x="492.0" y="245.0" fill="#6d28d9" font-size="16" font-weight="700" text-anchor="start">Z = 3,699 km</text>
+<text x="492.0" y="266.0" fill="#1f2933" font-size="13.5" text-anchor="start">climb up along Z</text>
+<text x="470.0" y="308.0" fill="#5b7083" font-size="13.5" text-anchor="start">Each step is a straight line, at</text>
+<text x="470.0" y="326.0" fill="#5b7083" font-size="13.5" text-anchor="start">right angles to the others.</text>
+</svg>

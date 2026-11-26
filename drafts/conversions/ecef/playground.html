@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding Earth-Centred, Earth-Fixed (ECEF)</title>
+<style>
+  :root { --lat:#b84a06; --lon:#1d5fbf; --alt:#15753a; --ink:#1f2933; --soft:#5b7083; --line:#d5dbe1; --card:#f6f8fa; }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body { margin: 0; padding: 16px; background: #fff; color: var(--ink); font: 15px/1.45 "Segoe UI", Helvetica, Arial, sans-serif; }
+  .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 16px; }
+  h1 + .pair { margin-top: 0; }
+  .pair > * { min-width: 0; }
+  .plots .card { display: flex; flex-direction: column; }
+  .pair > .card + .card { margin-top: 0; }
+  .middle { flex: 1; display: flex; align-items: center; }
+  .name { margin: -4px 0 8px; color: var(--soft); }
+  .job { margin: 0 0 8px; }
+  .eqs { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .eq p { margin: 0 0 4px; font-size: 14px; }
+  .eq + .eq { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .eq > div { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+  .eq math { font-size: 17px; }
+  .eq .nums { background: #fff; border-radius: 6px; padding: 4px 8px; margin-top: 4px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .card + .card { margin-top: 12px; }
+  h1 { font-size: 26px; line-height: 1.2; margin: 0 0 16px; }
+  h2 { font-size: 16px; margin: 0 0 8px; }
+  canvas { display: block; width: 100%; touch-action: none; }
+  #globe { height: 380px; cursor: grab; }
+  #globe.over-pin { cursor: pointer; }
+  #globe.dragging { cursor: grabbing; }
+  @media (max-width: 700px) { .pair { grid-template-columns: minmax(0, 1fr); } #globe { height: 320px; } }
+  .row { display: grid; grid-template-columns: 1fr 104px 96px; gap: 2px 10px; align-items: center; padding: 6px 0; }
+  .row label { font-weight: 700; }
+  .row input[type=range] { grid-column: 1 / -1; width: 100%; margin: 0; }
+  .row input[type=number] { width: 100%; font: inherit; padding: 3px 6px; border: 1px solid #b6c0ca; border-radius: 6px; background: #fff; color: var(--ink); text-align: right; }
+  .summary { margin-top: 16px; }
+  .words { margin: 0; font-size: 16px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  button { font: inherit; padding: 5px 11px; border: 1px solid #b6c0ca; border-radius: 7px; background: #fff; color: var(--ink); cursor: pointer; }
+  button:hover { background: #eaf0f5; }
+  :focus-visible { outline: 3px solid #7aa7e8; outline-offset: 1px; }
+  .layers { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; font-size: 14px; }
+  .layers label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .hint { color: var(--soft); font-size: 14px; margin: 6px 0 0; }
+  :root { --x:#be185d; --y:#0e7490; --z:#6d28d9; }
+  #above { height: 380px; cursor: crosshair; }
+  @media (max-width: 700px) { #above { height: 320px; } }
+  .row.x { color: var(--x); accent-color: var(--x); }
+  .row.y { color: var(--y); accent-color: var(--y); }
+  .row.z { color: var(--z); accent-color: var(--z); }
+  b.x { color: var(--x); } b.y { color: var(--y); } b.z { color: var(--z); }
+  b.lat { color: var(--lat); } b.lon { color: var(--lon); } b.alt { color: var(--alt); }
+  .eq .nums math { font-size: 15.5px; }
+  @media (max-width: 420px) { .eq .nums math { font-size: 12.5px; } .eq math { font-size: 15px; } }
+</style>
+</head>
+<body>
+
+<h1>Understanding Earth-Centred, Earth-Fixed (ECEF)</h1>
+
+<div class="pair plots">
+  <div class="card">
+    <h2>On the globe</h2>
+    <canvas id="globe" role="img" aria-label="See-through globe showing the X, Y and Z axes and the pin. The sliders control the same position."></canvas>
+    <div class="layers">
+      <label><input type="checkbox" id="showAxes" checked> axes</label>
+      <label><input type="checkbox" id="showPath" checked> X, Y, Z path</label>
+      <label><input type="checkbox" id="showR"> line from the centre</label>
+      <label><input type="checkbox" id="spin"> spin the Earth</label>
+    </div>
+    <p class="hint" id="spinNote"></p>
+  </div>
+  <div class="card">
+    <h2>The same spot from above the North Pole</h2>
+    <div class="middle"><canvas id="above" role="img" aria-label="View from above the North Pole showing X and Y, with a gauge for Z."></canvas></div>
+    <p class="hint" id="mapNote">This view shows X and Y. It can't show Z, so the bar on the right does that. Drag the pin, or the bar's marker.</p>
+  </div>
+</div>
+
+<div class="card summary">
+  <h2>In plain words: how to reach the pin</h2>
+  <p class="words" id="words"></p>
+  <p class="hint" id="where"></p>
+</div>
+
+<div class="pair">
+  <div class="card">
+    <div class="row x"><label for="xR">X in metres (to 0°, 0°)</label><input type="number" id="xN" aria-label="X in metres" min="-7500000" max="7500000" step="any"><output id="xKm" for="xN xR"></output><input type="range" id="xR" min="-7500000" max="7500000" step="1000"></div>
+    <div class="row y"><label for="yR">Y in metres (to 90° E)</label><input type="number" id="yN" aria-label="Y in metres" min="-7500000" max="7500000" step="any"><output id="yKm" for="yN yR"></output><input type="range" id="yR" min="-7500000" max="7500000" step="1000"></div>
+    <div class="row z"><label for="zR">Z in metres (to N Pole)</label><input type="number" id="zN" aria-label="Z in metres" min="-7500000" max="7500000" step="any"><output id="zKm" for="zN zR"></output><input type="range" id="zR" min="-7500000" max="7500000" step="1000"></div>
+  </div>
+  <div>
+    <div class="card"><h2>Jump to</h2><div class="btns" id="presets"></div></div>
+    <div class="card"><h2>The same spot in LLA</h2><p class="words" id="lla"></p><p class="hint">Same place, different numbers. The equations below translate between the two.</p></div>
+  </div>
+</div>
+
+<div class="pair">
+  <div class="card">
+    <h2>The equations: LLA to ECEF</h2>
+    <p class="name">Name: <b>geodetic to ECEF conversion</b></p>
+    <p class="job"><b>The job:</b> turn two angles and a height into three straight-line distances from the Earth's centre.</p>
+    <p class="job"><b>How:</b> the same as the globe equations on the LLA page, with a correction because the Earth is squashed. R is replaced by N, which changes with latitude, and Z shrinks a little.</p>
+    <div class="eqs" id="eqTo"></div>
+    <p class="hint">a = 6,378.137 km is the distance from the centre to the equator. e² = 0.00669438 says how squashed the Earth is.</p>
+  </div>
+  <div class="card">
+    <h2>The equations: ECEF back to LLA</h2>
+    <p class="name">Name: <b>ECEF to geodetic conversion</b></p>
+    <p class="job"><b>The job:</b> turn three straight-line distances back into two angles and a height.</p>
+    <p class="job"><b>How:</b> longitude is easy. Latitude is trickier, because the squash correction depends on the latitude we're looking for. So the computer guesses, corrects and repeats.</p>
+    <div class="eqs" id="eqBack"></div>
+  </div>
+</div>
+<p class="hint">The answers use unrounded numbers, so a calculator may differ slightly in the last digit. The globe is drawn as a perfect ball, but every number here uses WGS84.</p>
+
+<script>
+"use strict";
+// ---------------------------------------------------------------- basics
+const $ = id => document.getElementById(id);
+const RAD = Math.PI / 180;
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const wrapLon = l => (l >= -180 && l <= 180) ? l : ((l + 180) % 360 + 360) % 360 - 180;
+const COL = { x: "#be185d", y: "#0e7490", z: "#6d28d9", lat: "#b84a06", lon: "#1d5fbf", alt: "#15753a", ink: "#1f2933", soft: "#5b7083" };
+const LIMIT = 7.5e6, EARTH_R = 6371000;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// WGS84 ellipsoid: the model Earth that GPS uses.
+const A = 6378137, F = 1 / 298.257223563, E2 = F * (2 - F);
+const bigN = lat => A / Math.sqrt(1 - E2 * Math.sin(lat * RAD) ** 2);
+
+function llaToEcef(lat, lon, h) {
+  const N = bigN(lat), c = Math.cos(lat * RAD);
+  return { x: (N + h) * c * Math.cos(lon * RAD), y: (N + h) * c * Math.sin(lon * RAD), z: (N * (1 - E2) + h) * Math.sin(lat * RAD) };
+}
+// Returns null near the Earth's centre, where latitude and longitude stop making sense.
+function ecefToLla({ x, y, z }) {
+  if (Math.hypot(x, y, z) < 100000) return null;
+  const p = Math.hypot(x, y);
+  let lat = Math.atan2(z, p) / RAD;
+  for (let i = 0; i < 40; i++) lat = Math.atan2(z + E2 * bigN(lat) * Math.sin(lat * RAD), p) / RAD;
+  const N = bigN(lat);
+  return { lat, lon: p < 1e-6 ? 0 : Math.atan2(y, x) / RAD, p, N,
+           h: p * Math.cos(lat * RAD) + z * Math.sin(lat * RAD) - A * A / N };
+}
+
+const state = llaToEcef(40, 50, 300000);
+
+// ---------------------------------------------------------------- cameras
+const globe = $("globe"), gctx = globe.getContext("2d");
+const above = $("above"), actx = above.getContext("2d");
+const G = { lon: 5, lat: 28, w: 0, h: 0, cx: 0, cy: 0, R: 1, ball: document.createElement("canvas"), key: "" };
+// Looking straight down at the North Pole: X runs down the screen and Y runs right.
+const T = { lon: 0, lat: 90, w: 0, h: 0, cx: 0, cy: 0, R: 1, ball: document.createElement("canvas"), key: "" };
+
+// Points are in Earth radii: 1 is the surface.
+function project(cam, [x, y, z]) {
+  const cl = Math.cos(cam.lon * RAD), sl = Math.sin(cam.lon * RAD), cp = Math.cos(cam.lat * RAD), sp = Math.sin(cam.lat * RAD);
+  const fwd = x * cl + y * sl, right = -x * sl + y * cl;
+  return { x: cam.cx + cam.R * right, y: cam.cy - cam.R * (-fwd * sp + z * cp), depth: fwd * cp + z * sp };
+}
+function unproject(cam, px, py, r = 1) {
+  let sx = (px - cam.cx) / (cam.R * r), sy = (cam.cy - py) / (cam.R * r);
+  const m = Math.hypot(sx, sy);
+  if (m > 0.999) { sx *= 0.999 / m; sy *= 0.999 / m; }
+  const d = Math.sqrt(Math.max(0, 1 - sx * sx - sy * sy));
+  const cl = Math.cos(cam.lon * RAD), sl = Math.sin(cam.lon * RAD), cp = Math.cos(cam.lat * RAD), sp = Math.sin(cam.lat * RAD);
+  const fwd = d * cp - sy * sp, z = d * sp + sy * cp;
+  return { lat: Math.asin(clamp(z, -1, 1)) / RAD, lon: Math.atan2(fwd * sl + sx * cl, fwd * cl - sx * sl) / RAD };
+}
+const ball3 = (lat, lon) => { const c = Math.cos(lat * RAD); return [c * Math.cos(lon * RAD), c * Math.sin(lon * RAD), Math.sin(lat * RAD)]; };
+const pinPoint = () => [state.x / EARTH_R, state.y / EARTH_R, state.z / EARTH_R];
+const radius = () => Math.hypot(state.x, state.y, state.z);
+
+// ---------------------------------------------------------------- land
+const MW = 1440, MH = 720;
+const maskCanvas = document.createElement("canvas");
+maskCanvas.width = MW; maskCanvas.height = MH;
+let mask = null;
+
+async function loadLand() {
+  try {
+    // Natural Earth coastlines (public domain).
+    const res = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json");
+    if (!res.ok) throw new Error(res.status);
+    const topo = await res.json();
+    const { scale, translate } = topo.transform;
+    const arcs = topo.arcs.map(arc => {
+      let x = 0, y = 0;
+      return arc.map(([dx, dy]) => { x += dx; y += dy; return [x * scale[0] + translate[0], y * scale[1] + translate[1]]; });
+    });
+    const c = maskCanvas.getContext("2d", { willReadFrequently: true });
+    c.beginPath();
+    const geoms = topo.objects.land.geometries || [topo.objects.land];
+    for (const g of geoms) {
+      const polys = g.type === "Polygon" ? [g.arcs] : g.arcs;
+      for (const poly of polys) for (const ring of poly) {
+        // Unroll the ring so it never jumps across the date line...
+        const pts = [];
+        for (const i of ring)
+          for (const [lo, la] of (i < 0 ? arcs[~i].slice().reverse() : arcs[i])) {
+            const prev = pts.length ? pts[pts.length - 1][0] : lo;
+            pts.push([lo + 360 * Math.round((prev - lo) / 360), la]);
+          }
+        // ...close Antarctica, which goes all the way round, through the pole...
+        const a = pts[0], b = pts[pts.length - 1];
+        if (Math.abs(b[0] - a[0]) > 180) pts.push([b[0], -90], [a[0], -90]);
+        // ...then draw it three times so both edges of the map get covered.
+        for (const shift of [-360, 0, 360]) {
+          pts.forEach(([lo, la], i) => {
+            const X = (lo + shift + 180) / 360 * MW, Y = (90 - la) / 180 * MH;
+            i ? c.lineTo(X, Y) : c.moveTo(X, Y);
+          });
+          c.closePath();
+        }
+      }
+    }
+    c.fillStyle = "#000";
+    c.fill("evenodd");
+    const data = c.getImageData(0, 0, MW, MH).data;
+    mask = new Uint8Array(MW * MH);
+    for (let i = 0; i < mask.length; i++) mask[i] = data[i * 4 + 3];
+  } catch (e) {
+    $("mapNote").textContent += " (The coastlines couldn't load, so you may be offline. Everything else still works.)";
+  }
+  draw();
+}
+
+function paintBall(cam) {
+  const S = Math.min(560, Math.ceil(2 * cam.R * (window.devicePixelRatio || 1)));
+  const key = [S, cam.lon, cam.lat, !!mask].join();
+  if (S < 2 || key === cam.key) return;
+  cam.key = key;
+  if (cam.ball.width !== S) cam.ball.width = cam.ball.height = S;
+  const c = cam.ball.getContext("2d"), img = c.createImageData(S, S), px = img.data;
+  const cl = Math.cos(cam.lon * RAD), sl = Math.sin(cam.lon * RAD), cp = Math.cos(cam.lat * RAD), sp = Math.sin(cam.lat * RAD);
+  for (let j = 0, k = 0; j < S; j++) {
+    const sy = 1 - 2 * (j + 0.5) / S;
+    for (let i = 0; i < S; i++, k += 4) {
+      const sx = 2 * (i + 0.5) / S - 1, d2 = 1 - sx * sx - sy * sy, d = d2 > 0 ? Math.sqrt(d2) : 0;
+      let t = 0;
+      if (mask) {
+        const fwd = d * cp - sy * sp, z = clamp(d * sp + sy * cp, -1, 1);
+        const lon = Math.atan2(fwd * sl + sx * cl, fwd * cl - sx * sl);
+        const u = Math.min(MW - 1, (lon / (2 * Math.PI) + 0.5) * MW | 0);
+        const v = Math.min(MH - 1, (0.5 - Math.asin(z) / Math.PI) * MH | 0);
+        t = mask[v * MW + u] / 255;
+      }
+      const shade = 0.84 + 0.16 * d;
+      px[k] = (214 - 24 * t) * shade; px[k + 1] = (231 - 23 * t) * shade; px[k + 2] = (245 - 73 * t) * shade; px[k + 3] = 255;
+    }
+  }
+  c.putImageData(img, 0, 0);
+}
+
+// ---------------------------------------------------------------- drawing helpers
+function fit(canvas, ctx) {
+  const dpr = window.devicePixelRatio || 1, w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  return { w, h };
+}
+function drawBall(ctx, cam, fade) {
+  paintBall(cam);
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cam.cx, cam.cy, cam.R, 0, 7); ctx.clip();
+  ctx.globalAlpha = fade;
+  ctx.drawImage(cam.ball, cam.cx - cam.R, cam.cy - cam.R, 2 * cam.R, 2 * cam.R);
+  ctx.restore();
+  ctx.beginPath(); ctx.arc(cam.cx, cam.cy, cam.R, 0, 7);
+  ctx.strokeStyle = "#8397a8"; ctx.lineWidth = 1.2; ctx.stroke();
+}
+function surfaceLine(points, color, width) {
+  const p = points.map(q => project(G, q));
+  for (const front of [false, true]) {
+    gctx.beginPath();
+    let on = false;
+    for (let i = 1; i < p.length; i++) {
+      if ((p[i].depth + p[i - 1].depth >= 0) === front) {
+        if (!on) gctx.moveTo(p[i - 1].x, p[i - 1].y);
+        gctx.lineTo(p[i].x, p[i].y); on = true;
+      } else on = false;
+    }
+    gctx.globalAlpha = front ? 1 : 0.3; gctx.setLineDash(front ? [] : [4, 5]);
+    gctx.strokeStyle = color; gctx.lineWidth = width; gctx.stroke();
+  }
+  gctx.globalAlpha = 1; gctx.setLineDash([]);
+}
+function line(ctx, a, b, color, width, dash = [], alpha = 1) {
+  ctx.globalAlpha = alpha; ctx.setLineDash(dash); ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+  ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1; ctx.lineCap = "butt";
+}
+function arrowHead(ctx, from, to, color) {
+  const a = Math.atan2(to.y - from.y, to.x - from.x);
+  if (Math.hypot(to.x - from.x, to.y - from.y) < 12) return;
+  ctx.beginPath(); ctx.moveTo(to.x, to.y);
+  for (const s of [-0.42, 0.42]) ctx.lineTo(to.x - 11 * Math.cos(a + s), to.y - 11 * Math.sin(a + s));
+  ctx.closePath(); ctx.fillStyle = color; ctx.fill();
+}
+function label(ctx, cam, text, x, y, color, size = 14, align = "center") {
+  ctx.font = `700 ${size}px "Segoe UI", Helvetica, Arial, sans-serif`;
+  const w = ctx.measureText(text).width;
+  let left = align === "center" ? x - w / 2 : align === "right" ? x - w : x;
+  left = clamp(left, 4, cam.w - w - 4); y = clamp(y, 10, cam.h - 10);
+  ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.lineJoin = "round";
+  ctx.lineWidth = 4; ctx.strokeStyle = "rgba(255,255,255,.92)"; ctx.strokeText(text, left, y);
+  ctx.fillStyle = color; ctx.fillText(text, left, y);
+}
+function dot(ctx, p, alpha = 1) {
+  ctx.globalAlpha = alpha;
+  ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, 7); ctx.fillStyle = COL.ink; ctx.fill();
+  ctx.lineWidth = 2.5; ctx.strokeStyle = "#fff"; ctx.stroke(); ctx.globalAlpha = 1;
+}
+const num = (v, d = 0) => (Math.abs(v) < 0.5 / 10 ** d ? "" : v < 0 ? "−" : "") + Math.abs(v).toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d });
+const kmText = m => num(m / 1000) + " km";
+// Is this point behind (or inside) the ball as seen from this camera?
+const behind = (cam, q) => q.depth < 0 && Math.hypot(q.x - cam.cx, q.y - cam.cy) < cam.R;
+
+// ---------------------------------------------------------------- globe
+const STARS = [[.16, .84], [.9, .12], [.95, .7], [.06, .42], [.82, .92], [.72, .05], [.05, .66]];
+function drawGlobe() {
+  Object.assign(G, fit(globe, gctx));
+  G.cx = G.w / 2; G.cy = G.h / 2; G.R = Math.min(G.w, G.h) * 0.36;
+  if ($("spin").checked) {
+    gctx.fillStyle = "#93a3b1";
+    for (const [u, v] of STARS) { gctx.beginPath(); gctx.arc(u * G.w, v * G.h, 2.2, 0, 7); gctx.fill(); }
+    label(gctx, G, "stars stay still", 0.16 * G.w, 0.84 * G.h + 14, COL.soft, 11);
+  }
+  drawBall(gctx, G, 0.75);
+  surfaceLine(Array.from({ length: 121 }, (_, i) => ball3(0, i * 3 - 180)), "rgba(70,90,110,.6)", 1.4);
+  surfaceLine(Array.from({ length: 61 }, (_, i) => ball3(i * 3 - 90, 0)), "rgba(70,90,110,.6)", 1.4);
+
+  const O = project(G, [0, 0, 0]);
+  if ($("showAxes").checked) {
+    for (const [v, c, n] of [[[1, 0, 0], COL.x, "X"], [[0, 1, 0], COL.y, "Y"], [[0, 0, 1], COL.z, "Z"]]) {
+      const at = r => project(G, v.map(q => q * r));
+      line(gctx, O, at(-1), c, 1.5, [2, 6], 0.45);
+      line(gctx, O, at(1), c, 2, [6, 5], 0.8);
+      const tip = at(1.32), far = behind(G, tip);
+      line(gctx, at(1), tip, c, 3, [], far ? 0.3 : 1);
+      if (!far) arrowHead(gctx, at(1), tip, c);
+      const lab = at(1.42);
+      gctx.globalAlpha = far ? 0.45 : 1; label(gctx, G, n, lab.x, lab.y, c, 16); gctx.globalAlpha = 1;
+    }
+  }
+  gctx.beginPath(); gctx.arc(O.x, O.y, 4, 0, 7); gctx.fillStyle = COL.ink; gctx.fill();
+
+  const [px, py, pz] = pinPoint();
+  const a = project(G, [px, 0, 0]), b = project(G, [px, py, 0]), pin = project(G, [px, py, pz]);
+  if ($("showR").checked) line(gctx, O, pin, COL.ink, 2, [3, 4]);
+  if ($("showPath").checked) {
+    line(gctx, O, a, COL.x, 4.5); line(gctx, a, b, COL.y, 4.5); line(gctx, b, pin, COL.z, 4.5);
+  }
+  const inside = radius() < EARTH_R * 0.985, hid = behind(G, pin);
+  dot(gctx, pin, hid ? 0.5 : 1);
+  if ($("showPath").checked) {
+    // Keep the numbers in the corner, so they don't cover the path.
+    [["X", state.x, COL.x], ["Y", state.y, COL.y], ["Z", state.z, COL.z]].forEach(([n, v, c], i) =>
+      label(gctx, G, `${n}  ${kmText(v)}`, 6, 14 + i * 20, c, 14, "left"));
+  }
+  if (inside) label(gctx, G, "inside the Earth", pin.x, pin.y - 17, COL.ink, 12);
+  else if (hid && !$("spin").checked) label(gctx, G, "The pin is round the back: drag the globe to find it", G.w / 2, G.h - 12, COL.soft, 13);
+}
+
+// ---------------------------------------------------------------- view from above
+const gauge = () => ({ x: T.w - 62, top: 26, bottom: T.h - 26 });
+const gaugeY = z => { const g = gauge(); return g.top + (LIMIT - z) / (2 * LIMIT) * (g.bottom - g.top); };
+function drawAbove() {
+  Object.assign(T, fit(above, actx));
+  const space = T.w - 112;
+  T.cx = space / 2 + 4; T.cy = T.h / 2; T.R = Math.min(space, T.h) / 2 / 1.3;
+  drawBall(actx, T, 0.85);
+  const O = project(T, [0, 0, 0]);
+  for (const [v, c, n] of [[[1, 0, 0], COL.x, "X"], [[0, 1, 0], COL.y, "Y"]]) {
+    const at = r => project(T, v.map(q => q * r));
+    line(actx, O, at(-1.1), c, 1.5, [2, 6], 0.45); line(actx, O, at(1.17), c, 2, [6, 5], 0.8);
+    arrowHead(actx, O, at(1.17), c);
+    const e = at(1.23); label(actx, T, n, e.x, e.y, c, 15);
+  }
+  label(actx, T, "North Pole", O.x - 6, O.y - 12, COL.soft, 11, "right");
+  actx.beginPath(); actx.arc(O.x, O.y, 4, 0, 7); actx.fillStyle = COL.ink; actx.fill();
+  const [px, py, pz] = pinPoint();
+  const a = project(T, [px, 0, 0]), pin = project(T, [px, py, 0]);
+  line(actx, O, a, COL.x, 4); line(actx, a, pin, COL.y, 4);
+  dot(actx, pin, state.z < 0 ? 0.55 : 1);
+  if (state.z < -1000) label(actx, T, "below the equator", pin.x, pin.y + 18, COL.soft, 11);
+
+  // Z gauge
+  const g = gauge(), y0 = gaugeY(0), yz = gaugeY(state.z);
+  label(actx, T, "Z", g.x, 11, COL.z, 15);
+  line(actx, { x: g.x, y: g.top }, { x: g.x, y: g.bottom }, "#b6c0ca", 3);
+  for (const [z, t] of [[6356752, "N Pole"], [0, "equator"], [-6356752, "S Pole"]]) {
+    const y = gaugeY(z);
+    line(actx, { x: g.x - 6, y }, { x: g.x + 6, y }, COL.soft, 1.5);
+    if (Math.abs(y - yz) > 15) label(actx, T, t, g.x + 10, y, COL.soft, 11, "left");
+  }
+  line(actx, { x: g.x, y: y0 }, { x: g.x, y: yz }, COL.z, 5);
+  actx.beginPath(); actx.arc(g.x, yz, 7, 0, 7); actx.fillStyle = COL.z; actx.fill(); actx.lineWidth = 2; actx.strokeStyle = "#fff"; actx.stroke();
+  label(actx, T, num(state.z / 1000), g.x + 11, yz, COL.z, 12, "left");
+}
+
+// ---------------------------------------------------------------- equations
+const mi = (t, c) => `<mi${c ? ` style="color:${c}" ` : ""}>${t}</mi>`;
+const mn = (t, c) => `<mn${c ? ` style="color:${c}" ` : ""}>${t}</mn>`;
+const mo = t => `<mo>${t}</mo>`;
+const row = (...t) => `<mrow>${t.join("")}</mrow>`;
+const frac = (a, b) => `<mfrac>${a}${b}</mfrac>`;
+const sqrt = t => `<msqrt>${t}</msqrt>`;
+const sq = t => `<msup>${t}${mn("2")}</msup>`;
+const par = (...t) => row(mo("("), ...t, mo(")"));
+const fn = (name, inside) => row(mi(name), par(inside));
+const math = t => `<math display="inline" displaystyle="true">${row(t)}</math>`;
+const EQ = mo("="), TIMES = mo("×"), PLUS = mo("+"), MINUS = mo("−");
+const PHI = mi("φ", COL.lat), LAM = mi("λ", COL.lon), HH = mi("h", COL.alt);
+const VX = mi("X", COL.x), VY = mi("Y", COL.y), VZ = mi("Z", COL.z), VN = mi("N"), VP = mi("p"), VC = mi("c");
+// "+ number" or "− number", so there's never a "+ −5".
+const signed = (v, d, c) => mo(v <= -0.5 / 10 ** d ? "−" : "+") + mn(num(Math.abs(v), d), c);
+// A negative number in brackets, so it's clear what is being squared or multiplied.
+const bracket = (v, d, c) => v < 0 ? par(mn(num(v, d), c)) : mn(num(v, d), c);
+
+function equation(comment, symbols, numbers, answer) {
+  return `<div class="eq"><p>${comment}</p><div>${math(symbols)}</div><div class="nums">${math(numbers)}<br><b>= ${answer}</b></div></div>`;
+}
+let lastKey = "";
+function showEquations(L) {
+  const key = [state.x, state.y, state.z].join();
+  if (key === lastKey) return;
+  lastKey = key;
+  if (!L) {
+    $("eqTo").innerHTML = $("eqBack").innerHTML = "<p>You're almost at the Earth's centre, where latitude and longitude stop making sense. Move further out to see the numbers.</p>";
+    return;
+  }
+  const k = v => v / 1000, km = (v, d = 1) => num(k(v), d) + " km";
+  const deg = (v, c) => mn(num(v, 4) + "°", c);
+  const la = deg(L.lat, COL.lat), lo = deg(L.lon, COL.lon), N = k(L.N), h = k(L.h), Nz = N * (1 - E2), p = k(L.p);
+  const E2M = sq(mi("e"));
+  const w = (c, t) => `<b style="color:${c}">${t}</b>`;
+  const reach = par(VN + PLUS + HH), reachN = par(mn(num(N, 1)) + signed(h, 1, COL.alt));
+
+  $("eqTo").innerHTML =
+    equation(`<b>N: the stand-in for R.</b> It's the distance from the surface to the Earth's middle line, measured straight down. It grows a little towards the poles.`,
+      VN + EQ + frac(mi("a"), sqrt(mn("1") + MINUS + E2M + TIMES + sq(fn("sin", PHI)))),
+      VN + EQ + frac(mn("6,378.137"), sqrt(mn("1") + MINUS + mn("0.00669438") + TIMES + sq(fn("sin", la)))), km(L.N)) +
+    equation(`${w(COL.x, "X: how far towards 0°, 0°?")} cos(${w(COL.lat, "φ")}) keeps the sideways part. cos(${w(COL.lon, "λ")}) keeps the share facing 0° longitude.`,
+      VX + EQ + reach + TIMES + fn("cos", PHI) + TIMES + fn("cos", LAM),
+      VX + EQ + reachN + TIMES + fn("cos", la) + TIMES + fn("cos", lo), km(state.x)) +
+    equation(`${w(COL.y, "Y: how far towards 90° E?")} Same sideways part, but sin(${w(COL.lon, "λ")}) keeps the share facing 90° east.`,
+      VY + EQ + reach + TIMES + fn("cos", PHI) + TIMES + fn("sin", LAM),
+      VY + EQ + reachN + TIMES + fn("cos", la) + TIMES + fn("sin", lo), km(state.y)) +
+    equation(`${w(COL.z, "Z: how far towards the North Pole?")} The (1 − e²) shrinks N a little, because the Earth is shorter from pole to pole.`,
+      VZ + EQ + par(VN + TIMES + par(mn("1") + MINUS + E2M) + PLUS + HH) + TIMES + fn("sin", PHI),
+      VZ + EQ + par(mn(num(Nz, 1)) + signed(h, 1, COL.alt)) + TIMES + fn("sin", la), km(state.z));
+
+  const c = E2 * N * Math.sin(L.lat * RAD), x = k(state.x), y = k(state.y), z = k(state.z);
+  $("eqBack").innerHTML =
+    equation(`${w(COL.lon, "λ: which way round?")} atan2 is a button that turns "this much Y and this much X" into an angle.`,
+      LAM + EQ + row(mi("atan2"), par(VY + mo(",") + VX)),
+      LAM + EQ + row(mi("atan2"), par(mn(num(y, 1), COL.y) + mo(",") + mn(num(x, 1), COL.x))), num(L.lon, 4) + "°") +
+    equation(`<b>p: how far from the Earth's middle line?</b> This is Pythagoras: X and Y are two sides of a right-angled triangle, and p is the long side.`,
+      VP + EQ + sqrt(sq(VX) + PLUS + sq(VY)),
+      VP + EQ + sqrt(sq(bracket(x, 1, COL.x)) + PLUS + sq(bracket(y, 1, COL.y))), km(L.p)) +
+    equation(`<b>c: the squash correction.</b> It needs ${w(COL.lat, "φ")}, which we don't have yet. So start with a guess, work out the next line, and repeat until it stops changing.`,
+      VC + EQ + E2M + TIMES + VN + TIMES + fn("sin", PHI),
+      VC + EQ + mn("0.00669438") + TIMES + mn(num(N, 1)) + TIMES + fn("sin", la), num(c, 1) + " km") +
+    equation(`${w(COL.lat, "φ: how far up?")} Compare up (Z, plus the correction) with sideways (p). atan2 turns them into an angle.`,
+      PHI + EQ + row(mi("atan2"), par(VZ + PLUS + VC + mo(",") + VP)),
+      PHI + EQ + row(mi("atan2"), par(mn(num(z, 1), COL.z) + signed(c, 1) + mo(",") + mn(num(p, 1)))), num(L.lat, 4) + "°") +
+    equation(`${w(COL.alt, "h: how far off the surface?")} Add up how much of p and Z points straight up from the ground, then take away the Earth underneath you.`,
+      HH + EQ + VP + TIMES + fn("cos", PHI) + PLUS + VZ + TIMES + fn("sin", PHI) + MINUS + frac(sq(mi("a")), VN),
+      HH + EQ + mn(num(p * Math.cos(L.lat * RAD), 1)) + signed(z * Math.sin(L.lat * RAD), 1) + MINUS + mn(num(k(A * A / L.N), 1)), km(L.h));
+}
+
+// ---------------------------------------------------------------- text and controls
+function syncControls() {
+  const L = ecefToLla(state);
+  for (const k of ["x", "y", "z"]) {
+    if (document.activeElement !== $(k + "N")) $(k + "N").value = Math.round(state[k]);
+    $(k + "R").value = state[k];
+    $(k + "R").setAttribute("aria-valuetext", kmText(state[k]));
+    $(k + "Km").textContent = "= " + num(state[k] / 1000) + " km";
+  }
+  const part = (k, plus, minus) => {
+    const v = state[k];
+    return Math.abs(v) < 500 ? `don't move along <b class="${k}">${k.toUpperCase()}</b>`
+      : `go <b class="${k}">${kmText(Math.abs(v))}</b> towards ${v > 0 ? plus : minus} (<b class="${k}">${k.toUpperCase()}</b>)`;
+  };
+  $("words").innerHTML = `Start at the Earth's centre: ${part("x", "0° longitude", "180° longitude")}, then ${part("y", "90° E", "90° W")}, then ${part("z", "the North Pole", "the South Pole")}.`;
+  const end = !L ? "You're almost at the Earth's centre."
+    : Math.abs(L.h) < 500 ? "You end up on the surface."
+    : `You end up ${kmText(Math.abs(L.h))} ${L.h > 0 ? "above" : "below"} the surface.`;
+  $("where").textContent = `${end} In a straight line, that's ${kmText(radius())} from the centre. ECEF needs no conversion to draw: X, Y and Z are already the position.`;
+  $("lla").innerHTML = L
+    ? `<b class="lat">φ ${num(Math.abs(L.lat), 4)}°${Math.abs(L.lat) < 5e-5 ? "" : L.lat > 0 ? " N" : " S"}</b>, <b class="lon">λ ${num(Math.abs(L.lon), 4)}°${Math.abs(L.lon) < 5e-5 ? "" : L.lon > 0 ? " E" : " W"}</b>, <b class="alt">h ${Math.abs(L.h) < 10000 ? num(L.h) + " m" : num(L.h / 1000, 1) + " km"}</b>`
+    : "Not meaningful this close to the centre.";
+  $("spinNote").textContent = $("spin").checked
+    ? "The Earth, its axes and the pin all turn together, so X, Y and Z don't change. That's the “Earth-fixed” part."
+    : "Drag the globe to look around. The globe is see-through, so you can see the path from the centre.";
+  showEquations(L);
+}
+let queued = false;
+function draw() {
+  if (queued) return;
+  queued = true;
+  requestAnimationFrame(() => { queued = false; drawGlobe(); drawAbove(); syncControls(); });
+}
+
+// ---------------------------------------------------------------- animation
+let stateAnim = 0, viewAnim = 0, viewGoal = null;
+function tween(ms, step, setId, getId) {
+  const id = getId() + 1; setId(id);
+  if (reduceMotion) { step(1); draw(); return; }
+  const t0 = performance.now();
+  (function tick(now) {
+    if (getId() !== id) return;
+    const t = clamp((now - t0) / ms, 0, 1);
+    step(t * t * (3 - 2 * t)); draw();
+    if (t < 1) requestAnimationFrame(tick);
+  })(t0);
+}
+function stopAnims() { stateAnim++; viewAnim++; }
+function lookAt(lat, lon) {
+  const a = { lon: G.lon, lat: G.lat }, dLon = wrapLon(lon - a.lon);
+  tween(700, t => { G.lon = wrapLon(a.lon + dLon * t); G.lat = a.lat + (lat - a.lat) * t; }, v => viewAnim = v, () => viewAnim);
+  viewGoal = { id: viewAnim, lat, lon };
+}
+// Turn the globe if the pin is going round the back.
+function follow(target = state) {
+  if ($("spin").checked) return;
+  const r = Math.hypot(target.x, target.y, target.z);
+  if (r < EARTH_R * 0.5) return;
+  const v = viewGoal && viewGoal.id === viewAnim ? viewGoal : G, q = ball3(v.lat, v.lon);
+  if ((target.x * q[0] + target.y * q[1] + target.z * q[2]) / r > 0.15) return;
+  const lon = Math.atan2(target.y, target.x) / RAD, lat = Math.asin(target.z / r) / RAD;
+  lookAt(lat < -10 ? -28 : 28, wrapLon(lon - 45));
+}
+function goTo(lat, lon, h) {
+  const a = ecefToLla(state), s = { ...state }, b = llaToEcef(lat, lon, h);
+  if (!$("spin").checked) lookAt(lat < -10 ? -28 : 28, wrapLon(lon - 45));
+  tween(900, t => {
+    if (t === 1) Object.assign(state, b);
+    else if (a) Object.assign(state, llaToEcef(a.lat + (lat - a.lat) * t, a.lon + wrapLon(lon - a.lon) * t, a.h + (h - a.h) * t));
+    else for (const k of ["x", "y", "z"]) state[k] = s[k] + (b[k] - s[k]) * t;
+  }, v => stateAnim = v, () => stateAnim);
+}
+
+// Spin: turn the camera the other way, so the Earth turns eastwards.
+let spinLast = 0;
+function spinTick(now) {
+  if (!$("spin").checked) return;
+  G.lon = wrapLon(G.lon - Math.min(50, now - spinLast) / 1000 * 25);
+  spinLast = now; draw(); requestAnimationFrame(spinTick);
+}
+$("spin").addEventListener("change", () => { viewAnim++; if ($("spin").checked) { spinLast = performance.now(); requestAnimationFrame(spinTick); } else follow(); draw(); });
+
+// ---------------------------------------------------------------- inputs
+for (const k of ["x", "y", "z"]) {
+  $(k + "R").addEventListener("input", e => { stopAnims(); state[k] = +e.target.value; follow(); draw(); });
+  $(k + "N").addEventListener("input", e => {
+    if (e.target.value === "" || !Number.isFinite(+e.target.value)) return;
+    stopAnims(); state[k] = clamp(+e.target.value, -LIMIT, LIMIT); follow(); draw();
+  });
+  $(k + "N").addEventListener("blur", draw);
+}
+for (const id of ["showAxes", "showPath", "showR"]) $(id).addEventListener("change", draw);
+
+const PRESETS = [["Greenwich", 51.4779, -0.0015], ["London", 51.5074, -0.1278], ["Tokyo", 35.6762, 139.6503], ["Rome", 41.9028, 12.4964]];
+for (const [name, la, lo] of PRESETS) {
+  const b = document.createElement("button"); b.textContent = name;
+  b.onclick = () => goTo(la, lo, 0); $("presets").append(b);
+}
+
+// Dragging
+function pos(e, el) { const r = el.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+function overPin(x, y) {
+  const q = project(G, pinPoint());
+  return Math.hypot(q.x - x, q.y - y) < 20 && q.depth > 0 && radius() > EARTH_R * 0.3;
+}
+let drag = null;
+globe.addEventListener("pointerdown", e => {
+  const [x, y] = pos(e, globe);
+  stopAnims();
+  if (overPin(x, y)) {
+    const q = project(G, pinPoint()), L = ecefToLla(state);
+    drag = { pin: true, dx: x - q.x, dy: y - q.y, h: L.h, r: radius() / EARTH_R };
+  } else drag = { pin: false, x, y };
+  globe.setPointerCapture(e.pointerId); globe.classList.add("dragging");
+});
+globe.addEventListener("pointermove", e => {
+  const [x, y] = pos(e, globe);
+  if (!drag) { globe.classList.toggle("over-pin", overPin(x, y)); return; }
+  if (drag.pin) {
+    const q = unproject(G, x - drag.dx, y - drag.dy, drag.r);
+    Object.assign(state, llaToEcef(q.lat, q.lon, drag.h)); // keep the same height
+  } else {
+    const s = 1 / (G.R * RAD);
+    G.lon = wrapLon(G.lon - (x - drag.x) * s); G.lat = clamp(G.lat + (y - drag.y) * s, -89, 89);
+    drag.x = x; drag.y = y;
+  }
+  draw();
+});
+for (const t of ["pointerup", "pointercancel"]) globe.addEventListener(t, () => { drag = null; globe.classList.remove("dragging"); });
+
+let aDrag = null;
+function aboveMove(e) {
+  const [x, y] = pos(e, above);
+  if (aDrag === "z") {
+    const g = gauge();
+    state.z = clamp(LIMIT - (y - g.top) / (g.bottom - g.top) * 2 * LIMIT, -LIMIT, LIMIT);
+  } else {
+    state.x = clamp((y - T.cy) / T.R * EARTH_R, -LIMIT, LIMIT);
+    state.y = clamp((x - T.cx) / T.R * EARTH_R, -LIMIT, LIMIT);
+  }
+  follow(); draw();
+}
+above.addEventListener("pointerdown", e => {
+  stopAnims(); aDrag = pos(e, above)[0] > gauge().x - 24 ? "z" : "xy";
+  above.setPointerCapture(e.pointerId); aboveMove(e);
+});
+above.addEventListener("pointermove", e => { if (aDrag) aboveMove(e); });
+for (const t of ["pointerup", "pointercancel"]) above.addEventListener(t, () => aDrag = null);
+
+// ---------------------------------------------------------------- start
+new ResizeObserver(draw).observe(globe);
+new ResizeObserver(draw).observe(above);
+// Inside the site, grow the frame so there's no second scrollbar.
+try {
+  const f = window.frameElement;
+  if (f) new ResizeObserver(() => { f.style.height = document.body.scrollHeight + 4 + "px"; }).observe(document.body);
+} catch (e) { /* opened straight from disk */ }
+draw();
+loadLand();
+</script>
+</body>
+</html>

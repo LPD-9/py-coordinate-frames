@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15">
+<rect x="1" y="1" width="638" height="358" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<line x1="320" y1="20" x2="320" y2="340" stroke="#d5dbe1"/>
+<text x="24" y="36" font-weight="700" font-size="17" fill="#1f2933">1. Move zero</text><text x="24" y="58" font-size="14" fill="#5b7083">from the Earth's centre to your spot</text>
+<text x="344" y="36" font-weight="700" font-size="17" fill="#1f2933">2. Turn the axes</text><text x="344" y="58" font-size="14" fill="#5b7083">until they face north and down</text>
+<circle cx="130" cy="230" r="96" fill="#dcebf7" stroke="#5b7083" stroke-width="2"/>
+<g stroke="#6d28d9" stroke-width="3" opacity=".35"><line x1="130" y1="230" x2="130" y2="180"/><line x1="130" y1="230" x2="180" y2="230"/></g>
+<line x1="130" y1="230" x2="181" y2="166" stroke="#1f2933" stroke-width="2.5" stroke-dasharray="6 4"/><polygon points="186,160 173,166 183,174" fill="#1f2933"/>
+<g stroke="#6d28d9" stroke-width="4"><line x1="189.8" y1="154.9" x2="189.8" y2="104"/><line x1="189.8" y1="154.9" x2="241" y2="154.9"/></g>
+<g fill="#6d28d9"><polygon points="189.8,90 182,106 197.6,106"/><polygon points="255,154.9 239,147 239,162.8"/></g>
+<g font-weight="700" fill="#6d28d9"><text x="200" y="100">Z</text><text x="236" y="180">out</text></g>
+<circle cx="130" cy="230" r="5" fill="#5b7083"/><circle cx="189.8" cy="154.9" r="7" fill="#1f2933"/>
+<text x="120" y="250" font-size="13" fill="#5b7083" text-anchor="end">old zero</text>
+<circle cx="450" cy="230" r="96" fill="#dcebf7" stroke="#5b7083" stroke-width="2"/>
+<g stroke="#6d28d9" stroke-width="3" opacity=".3"><line x1="509.8" y1="154.9" x2="509.8" y2="98"/><line x1="509.8" y1="154.9" x2="567" y2="154.9"/></g>
+<line x1="509.8" y1="154.9" x2="470" y2="123.2" stroke="#b84a06" stroke-width="4"/><polygon points="459,114.5 476.4,117.9 466.6,130.2" fill="#b84a06"/>
+<line x1="509.8" y1="154.9" x2="478.1" y2="194.7" stroke="#15753a" stroke-width="4" stroke-dasharray="7 4"/><polygon points="469.4,205.7 472.8,188.3 485.1,198.1" fill="#15753a"/>
+<g font-weight="700" font-size="18"><text x="440" y="112" fill="#b84a06">N</text><text x="450" y="222" fill="#15753a">D</text></g>
+<circle cx="450" cy="230" r="4" fill="#5b7083"/><circle cx="509.8" cy="154.9" r="7" fill="#1f2933"/>
+<text x="524" y="178" font-size="13" fill="#1f2933">your zero</text>
+<text x="320" y="348" text-anchor="middle" font-size="14" fill="#5b7083">Seen from the side. East points into the page.</text>
+</svg>

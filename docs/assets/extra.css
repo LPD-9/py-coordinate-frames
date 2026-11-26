@@ -1,0 +1,10 @@
+/* One colour per LLA number, used in the text, the diagrams and the playground. */
+.lat { color: #b84a06; font-weight: 700; }
+.lon { color: #1d5fbf; font-weight: 700; }
+.alt { color: #15753a; font-weight: 700; }
+/* One colour per ECEF number. */
+.x { color: #be185d; font-weight: 700; }
+.y { color: #0e7490; font-weight: 700; }
+.z { color: #6d28d9; font-weight: 700; }
+.playground { width: 100%; height: 1150px; border: 1px solid #d5dbe1; border-radius: 10px; display: block; }
+.md-typeset img[src$=".svg"] { display: block; margin: 1rem auto; width: 100%; max-width: 640px; }

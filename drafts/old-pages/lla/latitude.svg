@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<circle cx="230" cy="190" r="140" fill="#dcebf7" stroke="#5b7083" stroke-width="2"/>
+<path d="M230 190 L280 190 A50 50 0 0 0 261.1 150.9 Z" fill="#b84a06" fill-opacity=".35"/>
+<line x1="90" y1="190" x2="370" y2="190" stroke="#b84a06" stroke-width="3"/>
+<line x1="230" y1="30" x2="230" y2="350" stroke="#5b7083" stroke-width="1.5" stroke-dasharray="5 5"/>
+<line x1="230" y1="190" x2="317.2" y2="80.4" stroke="#1f2933" stroke-width="2"/>
+<circle cx="317.2" cy="80.4" r="8" fill="#1f2933"/><circle cx="230" cy="190" r="4" fill="#1f2933"/>
+<text x="288" y="172" fill="#b84a06" font-weight="700" font-size="19">51.5°</text>
+<text x="333" y="78" fill="#1f2933">you (London)</text>
+<text x="384" y="195" fill="#b84a06" font-weight="700">equator = 0°</text>
+<text x="240" y="40" fill="#5b7083">North Pole = +90°</text><text x="240" y="354" fill="#5b7083">South Pole = −90°</text>
+<text x="400" y="132" fill="#1f2933">above the equator: +</text><text x="400" y="258" fill="#1f2933">below the equator: −</text>
+</svg>

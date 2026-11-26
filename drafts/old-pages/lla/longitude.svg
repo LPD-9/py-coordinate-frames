@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<circle cx="230" cy="185" r="140" fill="#dcebf7" stroke="#5b7083" stroke-width="2"/>
+<path d="M230 185 L230 240 A55 55 0 0 0 265.6 143.1 Z" fill="#1d5fbf" fill-opacity=".3"/>
+<path d="M230 185 L230 260 A75 75 0 0 1 157.9 205.7 Z" fill="#1d5fbf" fill-opacity=".14"/>
+<line x1="230" y1="185" x2="230" y2="325" stroke="#1d5fbf" stroke-width="3"/>
+<line x1="230" y1="185" x2="320.5" y2="78.2" stroke="#1f2933" stroke-width="2"/>
+<line x1="230" y1="185" x2="95.4" y2="223.6" stroke="#1f2933" stroke-width="2"/>
+<circle cx="320.5" cy="78.2" r="7" fill="#1f2933"/><circle cx="95.4" cy="223.6" r="7" fill="#1f2933"/><circle cx="230" cy="185" r="5" fill="#1f2933"/>
+<text x="290" y="196" fill="#1d5fbf" font-weight="700" font-size="18">139.7° E</text>
+<text x="128" y="272" fill="#1d5fbf" font-weight="700" font-size="18">74° W</text>
+<text x="336" y="74" fill="#1f2933">Tokyo: +139.7°</text>
+<text x="16" y="292" fill="#1f2933">New York:</text><text x="16" y="312" fill="#1f2933">−74°</text><line x1="62" y1="276" x2="90" y2="232" stroke="#5b7083"/>
+<text x="230" y="356" fill="#1d5fbf" font-weight="700" text-anchor="middle">Greenwich line = 0°</text>
+<text x="218" y="170" fill="#1f2933" text-anchor="end" font-size="14">North Pole</text>
+<text x="400" y="215" fill="#1f2933">turn east: +</text><text x="400" y="242" fill="#1f2933">turn west: −</text>
+<text x="400" y="290" fill="#5b7083" font-size="14">looking down from above</text>
+</svg>

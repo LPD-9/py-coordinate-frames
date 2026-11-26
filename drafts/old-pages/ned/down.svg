@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<path d="M2 200 L638 200 L638 366 Q638 378 626 378 L14 378 Q2 378 2 366 Z" fill="#e8dcc0"/>
+<line x1="2" y1="200" x2="638" y2="200" stroke="#a67c00" stroke-width="2"/>
+<line x1="130" y1="50" x2="130" y2="330" stroke="#15753a" stroke-width="4"/><polygon points="130,354 120,330 140,330" fill="#15753a"/>
+<g stroke="#15753a" stroke-width="3"><line x1="120" y1="100" x2="140" y2="100"/><line x1="120" y1="200" x2="140" y2="200"/><line x1="120" y1="300" x2="140" y2="300"/></g>
+<g fill="#15753a" font-weight="700" text-anchor="end"><text x="110" y="105">−100</text><text x="110" y="205">0</text><text x="110" y="305">+100</text></g>
+<text x="152" y="352" fill="#15753a" font-weight="700">D counts downwards</text>
+<g stroke="#1f2933" stroke-width="3"><line x1="290" y1="100" x2="350" y2="100"/><line x1="290" y1="94" x2="290" y2="100"/><line x1="350" y1="94" x2="350" y2="100"/><line x1="276" y1="94" x2="304" y2="94"/><line x1="336" y1="94" x2="364" y2="94"/></g><rect x="306" y="96" width="28" height="13" rx="4" fill="#1f2933"/>
+<text x="385" y="98" fill="#1f2933" font-weight="700">a drone, 100 m up</text><text x="385" y="119" fill="#15753a" font-weight="700">D = −100</text>
+<circle cx="320" cy="162" r="9" fill="#1f2933"/><g stroke="#1f2933" stroke-width="4" stroke-linecap="round"><line x1="320" y1="172" x2="320" y2="186"/><line x1="320" y1="186" x2="313" y2="198"/><line x1="320" y1="186" x2="327" y2="198"/></g>
+<text x="385" y="172" fill="#1f2933" font-weight="700">you, on the ground</text><text x="385" y="193" fill="#15753a" font-weight="700">D = 0</text>
+<rect x="292" y="286" width="56" height="28" rx="14" fill="#8a7a55"/><circle cx="320" cy="300" r="8" fill="#1f2933"/>
+<text x="385" y="297" fill="#1f2933" font-weight="700">a mine, 100 m below</text><text x="385" y="318" fill="#15753a" font-weight="700">D = +100</text>
+</svg>

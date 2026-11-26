@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<ellipse cx="240" cy="190" rx="180" ry="110" fill="#dcebf7" stroke="#5b7083" stroke-width="2"/>
+<line x1="60" y1="190" x2="420" y2="190" stroke="#5b7083" stroke-width="2"/>
+<line x1="240" y1="190" x2="377.9" y2="119.3" stroke="#5b7083" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="326.3" y1="190" x2="407.4" y2="78.9" stroke="#b84a06" stroke-width="3"/>
+<path d="M326.3 190 L354.3 190 A28 28 0 0 0 342.8 167.4 Z" fill="#b84a06" fill-opacity=".4"/>
+<path d="M240 190 L290 190 A50 50 0 0 0 284.5 167.2 Z" fill="#5b7083" fill-opacity=".35"/>
+<circle cx="377.9" cy="119.3" r="7" fill="#1f2933"/><circle cx="240" cy="190" r="5" fill="#1f2933"/>
+<text x="420" y="84" fill="#b84a06" font-weight="700">geodetic (used by LLA)</text><text x="420" y="106" fill="#b84a06" font-size="14">straight down into the surface</text>
+<text x="130" y="140" fill="#5b7083" font-weight="700">geocentric</text><text x="130" y="160" fill="#5b7083" font-size="14">to the exact centre</text>
+<text x="218" y="214" fill="#1f2933" font-size="14">centre</text>
+<text x="70" y="345" fill="#5b7083" font-size="14">Squash hugely exaggerated. You'd never see it by eye.</text>
+</svg>

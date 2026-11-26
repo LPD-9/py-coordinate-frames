@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<path d="M2 305 Q90 290 150 262 L230 160 L270 200 L310 140 L385 262 Q470 305 638 298 L638 366 Q638 378 626 378 L14 378 Q2 378 2 366 Z" fill="#d9cfb8"/>
+<path d="M14 286 Q150 252 320 272 T626 268" fill="none" stroke="#1d5fbf" stroke-width="2.5" stroke-dasharray="7 5"/>
+<path d="M14 334 Q320 296 626 334" fill="none" stroke="#1f2933" stroke-width="3"/>
+<line x1="460" y1="318" x2="460" y2="98" stroke="#15753a" stroke-width="3"/>
+<path d="M452 110 L460 95 L468 110" fill="none" stroke="#15753a" stroke-width="3"/>
+<line x1="500" y1="278" x2="500" y2="98" stroke="#5b7083" stroke-width="2"/>
+<path d="M493 109 L500 95 L507 109" fill="none" stroke="#5b7083" stroke-width="2"/>
+<path d="M430 80 Q430 72 442 72 L508 72 L520 58 L528 58 L522 82 L438 82 Q430 82 430 80 Z" fill="#1f2933"/>
+<path d="M462 78 L490 78 L505 92 L494 92 Z" fill="#1f2933"/>
+<text x="448" y="180" text-anchor="end" fill="#15753a" font-weight="700">LLA altitude</text>
+<text x="512" y="170" fill="#5b7083">height above</text><text x="512" y="190" fill="#5b7083">sea level</text>
+<text x="20" y="254" fill="#1d5fbf" font-weight="700">sea level (lumpy)</text>
+<text x="36" y="360" fill="#1f2933" font-weight="700">ellipsoid: the smooth model Earth</text>
+<text x="20" y="36" fill="#5b7083" font-size="14">Not to scale: the gap is at most about 100 m</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<line x1="320" y1="20" x2="320" y2="360" stroke="#d5dbe1"/>
+
+<!-- Step 1: side view -->
+<text x="24" y="34" fill="#1f2933" font-weight="700" font-size="17">Step 1: look from the side</text>
+<text x="24" y="56" fill="#5b7083" font-size="14">split the distance into up and sideways</text>
+<path d="M60 310 L240 310 A180 180 0 0 0 60 130 Z" fill="#dcebf7" stroke="#5b7083" stroke-width="1.5"/>
+<path d="M60 310 L108 310 A48 48 0 0 0 90.9 273.2 Z" fill="#b84a06" fill-opacity=".35"/>
+<text x="110" y="295" fill="#b84a06" font-weight="700" font-size="18">φ</text>
+<line x1="60" y1="310" x2="175.7" y2="172.1" stroke="#1f2933" stroke-width="3"/>
+<text x="112" y="222" fill="#1f2933" font-weight="700" text-anchor="end">R + h</text>
+<line x1="60" y1="310" x2="175.7" y2="310" stroke="#0f766e" stroke-width="5"/>
+<text x="118" y="334" fill="#0f766e" font-weight="700" text-anchor="middle">sideways</text>
+<text x="118" y="354" fill="#0f766e" text-anchor="middle" font-size="14">(R + h) × cos φ</text>
+<line x1="175.7" y1="310" x2="175.7" y2="172.1" stroke="#7c3aed" stroke-width="5"/>
+<text x="246" y="196" fill="#7c3aed" font-weight="700">Z (up)</text>
+<text x="216" y="216" fill="#7c3aed" font-size="14">(R + h) × sin φ</text>
+<line x1="212" y1="220" x2="182" y2="240" stroke="#7c3aed" stroke-width="1.2"/>
+<circle cx="60" cy="310" r="5" fill="#1f2933"/><circle cx="175.7" cy="172.1" r="8" fill="#e11d48" stroke="#fff" stroke-width="2"/>
+<text x="188" y="164" fill="#1f2933">pin</text>
+<text x="24" y="354" fill="#5b7083" font-size="13">centre</text>
+<text x="66" y="122" fill="#5b7083" font-size="13">North Pole</text>
+
+<!-- Step 2: top view -->
+<text x="340" y="34" fill="#1f2933" font-weight="700" font-size="17">Step 2: look from above</text>
+<text x="340" y="56" fill="#5b7083" font-size="14">split sideways into X and Y (drawn bigger)</text>
+<path d="M390 110 L390 310 A200 200 0 0 0 590 110 Z" fill="#dcebf7" stroke="#5b7083" stroke-width="1.5"/>
+<path d="M390 110 L390 158 A48 48 0 0 0 420.9 146.8 Z" fill="#1d5fbf" fill-opacity=".35"/>
+<text x="399" y="178" fill="#1d5fbf" font-weight="700" font-size="18">λ</text>
+<line x1="390" y1="110" x2="518.6" y2="263.2" stroke="#0f766e" stroke-width="5"/>
+<text x="462" y="176" fill="#0f766e" font-weight="700">sideways</text>
+<line x1="390" y1="110" x2="390" y2="263.2" stroke="#7c3aed" stroke-width="5"/>
+<text x="381" y="206" fill="#7c3aed" font-weight="700" text-anchor="end">X</text>
+<text x="381" y="226" fill="#7c3aed" font-size="13" text-anchor="end">× cos λ</text>
+<line x1="390" y1="263.2" x2="518.6" y2="263.2" stroke="#7c3aed" stroke-width="5"/>
+<text x="452" y="254" fill="#7c3aed" font-weight="700" text-anchor="middle">Y</text>
+<text x="452" y="284" fill="#7c3aed" font-size="13" text-anchor="middle">× sin λ</text>
+<circle cx="390" cy="110" r="5" fill="#1f2933"/><circle cx="518.6" cy="263.2" r="8" fill="#e11d48" stroke="#fff" stroke-width="2"/>
+<text x="382" y="98" fill="#5b7083" font-size="13">centre</text>
+<text x="390" y="332" fill="#5b7083" font-size="13" text-anchor="middle">towards 0° longitude</text>
+<text x="622" y="98" fill="#5b7083" font-size="13" text-anchor="end">towards 90° E</text>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+<rect x="1" y="1" width="638" height="378" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<polygon points="40,225 220,145 430,215 250,305" fill="#ffe9b0" stroke="#a67c00" stroke-width="1.5"/>
+<line x1="235" y1="222" x2="318" y2="184" stroke="#b84a06" stroke-width="5"/><polygon points="338,175 316,175 324,192" fill="#b84a06"/>
+<line x1="235" y1="222" x2="334" y2="257" stroke="#1d5fbf" stroke-width="5"/><polygon points="354,264 339,247 332,266" fill="#1d5fbf"/>
+<line x1="235" y1="222" x2="235" y2="322" stroke="#15753a" stroke-width="5" stroke-dasharray="8 5"/><polygon points="235,344 226,321 244,321" fill="#15753a"/>
+<circle cx="235" cy="222" r="6" fill="#1f2933"/>
+<g stroke="#1f2933" stroke-width="4" stroke-linecap="round"><line x1="235" y1="174" x2="235" y2="204"/><line x1="235" y1="204" x2="227" y2="220"/><line x1="235" y1="204" x2="243" y2="220"/><line x1="224" y1="188" x2="246" y2="188"/></g>
+<circle cx="235" cy="162" r="10" fill="#1f2933"/>
+<g font-weight="700" font-size="20"><text x="344" y="172" fill="#b84a06">N</text><text x="362" y="276" fill="#1d5fbf">E</text><text x="250" y="342" fill="#15753a">D</text></g>
+<text x="222" y="236" text-anchor="end" fill="#1f2933" font-size="14">your chosen zero</text>
+<text x="460" y="112" fill="#b84a06" font-weight="700">N: forwards,</text><text x="460" y="132" fill="#b84a06" font-weight="700">if you face north</text>
+<text x="460" y="176" fill="#1d5fbf" font-weight="700">E: to your right</text>
+<text x="460" y="220" fill="#15753a" font-weight="700">D: into the ground</text>
+<text x="40" y="364" fill="#5b7083" font-size="14">Stand at zero, face north, and all three directions are easy to find</text>
+</svg>

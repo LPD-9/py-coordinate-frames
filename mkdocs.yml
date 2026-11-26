@@ -1,0 +1,30 @@
+site_name: Coordinate Frames
+theme:
+  name: material
+  font: false
+  palette:
+    primary: blue grey
+    accent: indigo
+  features:
+    - navigation.sections
+    - navigation.expand
+extra_css:
+  - assets/extra.css
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
+nav:
+  - Introduction: README.md
+  - Geodetic:
+      - Global:
+          - LLA: geodetic/global/lla/README.md
+  - Cartesian:
+      - Global:
+          - ECEF: cartesian/global/ecef/README.md
+      - Local:
+          - NED: cartesian/local/cart-ned/README.md
+  - Conversions: conversions/README.md

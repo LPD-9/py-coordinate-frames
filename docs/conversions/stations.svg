@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15">
+<rect x="1" y="1" width="638" height="258" rx="14" fill="#f6f8fa" stroke="#d5dbe1"/>
+<g stroke="#5b7083" stroke-width="4"><line x1="168" y1="110" x2="262" y2="110"/><line x1="378" y1="110" x2="472" y2="110"/></g>
+<g fill="#5b7083"><polygon points="156,110 172,102 172,118"/><polygon points="274,110 258,102 258,118"/><polygon points="366,110 382,102 382,118"/><polygon points="484,110 468,102 468,118"/></g>
+<g fill="#fff" stroke="#1f2933" stroke-width="2.5"><rect x="44" y="74" width="104" height="72" rx="12"/><rect x="284" y="74" width="72" height="72" rx="12" fill="#1f2933"/><rect x="492" y="74" width="104" height="72" rx="12"/></g>
+<g text-anchor="middle" font-weight="700" font-size="21"><text x="96" y="118" fill="#1f2933">LLA</text><text x="320" y="117" fill="#fff" font-size="19">ECEF</text><text x="544" y="118" fill="#1f2933">NED</text></g>
+<g text-anchor="middle" font-size="13"><text x="96" y="168" fill="#5b7083">two angles,</text><text x="96" y="186" fill="#5b7083">one height</text><text x="320" y="168" fill="#5b7083">X, Y, Z from</text><text x="320" y="186" fill="#5b7083">the centre</text><text x="544" y="168" fill="#5b7083">north, east,</text><text x="544" y="186" fill="#5b7083">down</text></g>
+<g text-anchor="middle" font-weight="700" fill="#1f2933"><text x="215" y="90">swap</text><text x="425" y="90">move, turn</text></g>
+<g text-anchor="middle" fill="#5b7083" font-size="13"><text x="215" y="136">angles for</text><text x="215" y="154">distances</text><text x="425" y="136">to your</text><text x="425" y="154">zero</text></g>
+<text x="320" y="40" text-anchor="middle" fill="#1f2933" font-weight="700" font-size="16">ECEF is the middle stop</text>
+<text x="320" y="232" text-anchor="middle" fill="#5b7083">From LLA to NED? Change at ECEF. Learn two links and you can go anywhere.</text>
+</svg>
